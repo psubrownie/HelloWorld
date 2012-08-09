@@ -1,0 +1,9 @@
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+     <package name="HelloWorld-actions" extends="community-actions" namespace="/community/cyber-space">  
+        <action name="helloworld" class="com.jivesoftware.helloworld.action.HelloWorldAction">  
+            <result name="success" type="freemarker">/plugins/HelloWorld/resources/templates/helloWorld-Page.ftl</result>  
+        </action>  
+  </package>  
+</struts>

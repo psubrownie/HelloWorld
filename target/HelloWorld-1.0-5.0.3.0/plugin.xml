@@ -1,0 +1,65 @@
+<plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://www.jivesoftware.com/schemas/clearspace/2_5/plugin.xsd">
+    <name>HelloWorld</name>
+    <description>HelloWorld</description>
+    <author></author>
+    <version>1.0.0</version>
+    <minServerVersion>5.0.3</minServerVersion>
+    <maxServerVersion>5.0.3</maxServerVersion>
+    
+	<!-- you will want to change your class name here! -->
+   <!-- Initialization Class. Builds and Destroys the plugin -->  
+    <class>com.jivesoftware.helloworld.HelloWorldPlugin</class>  
+    
+    <!-- Defines the menus where the plugin will exist, can find these in the ui-components.xml of the core code -->  
+    <components>  
+        <component id="admin-console">  
+           <!-- <tab id="system">  
+                <section id="section-helloworld" name="admin.decorator.menu.system.helloworld.section"  
+                         description="admin.decorator.menu.system.dbQuery.section.desc">  
+                    <item id="helloworld-page" name="admin.decorator.menu.system.helloworld.item"  
+                          url="helloworld.jspa"  
+                          description="admin.decorator.menu.system.helloworld.item.desc" />  
+                </section>  
+            </tab> -->  
+            <tab id="jiveUserMenu6" accesskey="M" name="CMP Menu" cssClass="jive-userbar-example"> 
+                
+                    <item id="helloworld-page" name="admin.decorator.menu.system.helloworld.item"  
+                          url="helloworld.jspa"  
+                          description="admin.decorator.menu.system.helloworld.item.desc" />  
+                  
+            </tab>  
+        </component>  
+        <component id="user-bar">
+            <tab id="jiveUserMenu5">
+                <item id="sayhello" name="Say Hello">
+                    <url><![CDATA[<@ww.url action="helloworld" />]]></url>                 
+                </item>
+            </tab>
+        </component>
+
+        
+    </components> 
+    
+    <databaseKey>CMP</databaseKey>  
+    <databaseVersion>1</databaseVersion>  
+    
+    <widget class="com.jivesoftware.helloworld.widgets.HelloWidget" />
+    <widget class="com.jivesoftware.helloworld.widgets.ClassificationWidget" />
+
+	<!-- 
+    <authorURL>
+    <pluginURL>
+    <databaseKey>
+    <databaseVersion>
+    <components>
+    <css>
+    <soy>
+    <javascript>
+    <widget>
+    <macro>
+    <urlmapping>
+    <sitemesh>
+	-->
+
+</plugin>

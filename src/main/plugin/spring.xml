@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:cxf="http://cxf.apache.org/core"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+http://www.directwebremoting.org/schema/spring-dwr http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd
+http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd"
+	default-autowire="no" default-init-method="init"
+	default-destroy-method="destroy">
+
+	<bean class="com.jivesoftware.helloworld.HelloWorldPlugin" />
+
+	<!-- Defines the DAO class as a Spring bean. -->
+	<bean id="cmpDAO" class="com.jivesoftware.helloworld.dao.CmpDAOImpl">
+		<!-- Includes a reference to an object used by a class higher up the inheritance 
+			chain. -->
+		<property name="dataSource">
+			<util:property-path path="dataSourceFactory.dataSource" />
+		</property>
+	</bean>
+	<!-- Defines the a manager class as a Spring bean. -->
+	<bean id="cmpManager" class="com.jivesoftware.helloworld.dao.CmpManagerImpl"
+		parent="jiveManager">
+		<!-- Properties specify Spring-managed object references that can be injected 
+			(assigned to variables via setter methods) into the manager at run time. 
+			The feedBlogDAO property here refers to the FeedBlogDAOImpl bean defined 
+			above. -->
+		<property name="cmpDAO" ref="cmpDAO" />
+	</bean>
+	<bean id="fooServiceRestImpl" class="com.jivesoftware.helloworld.rest.FooServiceImpl"
+		parent="remoteSupport">
+		<property name="cmpManager" ref="cmpManager" />
+	</bean>
+	<jaxrs:server id="fooRestService" address="/v2/rest/foo">
+        <jaxrs:serviceBeans>
+            <ref bean="fooServiceRestImpl" />
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <ref bean="secureJacksonJsonProvider" />
+            <ref bean="securityInterceptor" />
+        </jaxrs:providers>
+    </jaxrs:server>
+    <dwr:configuration>
+		<dwr:convert class="com.jivesoftware.sbs.plugins.foo.action.remote.FooWidgetResponse" type="bean">
+			<dwr:include method="bean"/>
+		    <dwr:include method="requestStatus"/>
+		    <dwr:include method="statusMessage"/>
+		</dwr:convert>
+		<dwr:convert class="com.jivesoftware.sbs.plugins.foo.action.remote.FooWidgetBean" type="bean">
+			<dwr:include method="key"/>
+		    <dwr:include method="value"/>
+		    <dwr:include method="timestamp"/>
+		</dwr:convert>
+	</dwr:configuration>
+</beans>

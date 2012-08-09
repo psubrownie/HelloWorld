@@ -1,0 +1,15 @@
+<schema name="CMP">
+	<table name="CMP_Table1" description="table for CMP Data">
+		<column name="cmpID" type="bigint" nullable="false"
+			description="Primary key" />
+		<column name="field1" type="bigint" nullable="false"
+			description="ID of the blog" />
+		<column name="field2" type="bigint" nullable="false"
+			description="ID of the author" />
+		<column name="field3" type="varchar" size="255" nullable="false"
+			description="URL of the feed" />
+		<column name="field4" type="varchar" size="50" nullable="true"
+			description="" />
+		<index type="primary" name="cmp_pk" column="cmpID" />
+	</table>
+</schema>  
